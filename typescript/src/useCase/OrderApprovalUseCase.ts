@@ -11,13 +11,7 @@ class OrderApprovalUseCase {
 
   public run(request: OrderApprovalRequest): void {
     const order: Order = this.orderRepository.getById(request.getOrderId());
-
-    if (request.isApproved()) {
-      order.approve();
-    } else {
-      order.reject();
-    }
-
+    request.isApproved() ? order.approve() : order.reject();
     this.orderRepository.save(order);
   }
 }
