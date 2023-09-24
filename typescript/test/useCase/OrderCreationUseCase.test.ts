@@ -14,14 +14,8 @@ describe('OrderCreationUseCase', () => {
   const orderRepository: TestOrderRepository = new TestOrderRepository();
   const food: Category = new Category({ name: 'food', taxPercentage: 10 });
 
-  const saladProduct = new Product();
-  saladProduct.setName('salad');
-  saladProduct.setPrice(3.56);
-  saladProduct.setCategory(food);
-  const tomatoProduct = new Product();
-  tomatoProduct.setName('tomato');
-  tomatoProduct.setPrice(4.65);
-  tomatoProduct.setCategory(food);
+  const saladProduct = new Product({ name: 'salad', price: 3.56, category: food });
+  const tomatoProduct = new Product({ name: 'tomato', price: 4.65, category: food });
   const productCatalog: ProductCatalog = new InMemoryProductCatalog([ saladProduct, tomatoProduct]);
   const useCase: OrderCreationUseCase = new OrderCreationUseCase(orderRepository, productCatalog);
 
