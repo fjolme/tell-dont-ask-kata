@@ -10,7 +10,7 @@ import UnknownProductException from '../../src/useCase/UnknownProductException';
 import InMemoryProductCatalog from '../doubles/InMemoryProductCatalog';
 import TestOrderRepository from '../doubles/TestOrderRepository';
 
-describe('OrderApprovalUseCase', () => {
+describe('OrderCreationUseCase', () => {
   const orderRepository: TestOrderRepository = new TestOrderRepository();
   const food: Category = new Category();
   food.setName('food');
