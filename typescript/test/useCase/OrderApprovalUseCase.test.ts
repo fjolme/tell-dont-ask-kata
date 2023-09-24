@@ -16,9 +16,7 @@ describe('OrderApprovalUseCase', () => {
     useCase = new OrderApprovalUseCase(orderRepository);
   });
   it('approvedExistingOrder', () => {
-    const initialOrder: Order = new Order();
-    initialOrder.setStatus(OrderStatus.CREATED);
-    initialOrder.setId(1);
+    const initialOrder: Order = new Order({ id: 1 });
     orderRepository.addOrder(initialOrder);
 
     const request: OrderApprovalRequest = new OrderApprovalRequest();
@@ -32,9 +30,7 @@ describe('OrderApprovalUseCase', () => {
   });
 
   it('rejectedExistingOrder', () => {
-    const initialOrder: Order = new Order();
-    initialOrder.setStatus(OrderStatus.CREATED);
-    initialOrder.setId(1);
+    const initialOrder: Order = new Order({ id: 1 });
     orderRepository.addOrder(initialOrder);
 
     const request: OrderApprovalRequest = new OrderApprovalRequest();
@@ -48,9 +44,7 @@ describe('OrderApprovalUseCase', () => {
   });
 
   it('cannotApproveRejectedOrder', () => {
-    const initialOrder: Order = new Order();
-    initialOrder.setStatus(OrderStatus.REJECTED);
-    initialOrder.setId(1);
+    const initialOrder: Order = new Order({ id: 1, status: OrderStatus.REJECTED });
     orderRepository.addOrder(initialOrder);
 
     const request: OrderApprovalRequest = new OrderApprovalRequest();
@@ -62,9 +56,7 @@ describe('OrderApprovalUseCase', () => {
   });
 
   it('cannotRejectApprovedOrder', () => {
-    const initialOrder: Order = new Order();
-    initialOrder.setStatus(OrderStatus.APPROVED);
-    initialOrder.setId(1);
+    const initialOrder: Order = new Order({ id: 1, status: OrderStatus.APPROVED });
     orderRepository.addOrder(initialOrder);
 
     const request: OrderApprovalRequest = new OrderApprovalRequest();
@@ -76,9 +68,7 @@ describe('OrderApprovalUseCase', () => {
   });
 
   it('shippedOrdersCannotBeApproved', () => {
-    const initialOrder: Order = new Order();
-    initialOrder.setStatus(OrderStatus.SHIPPED);
-    initialOrder.setId(1);
+    const initialOrder: Order = new Order({ id: 1, status: OrderStatus.SHIPPED });
     orderRepository.addOrder(initialOrder);
 
     const request: OrderApprovalRequest = new OrderApprovalRequest();
@@ -90,9 +80,7 @@ describe('OrderApprovalUseCase', () => {
   });
 
   it('shippedOrdersCannotBeRejected', () => {
-    const initialOrder: Order = new Order();
-    initialOrder.setStatus(OrderStatus.SHIPPED);
-    initialOrder.setId(1);
+    const initialOrder: Order = new Order({ id: 1, status: OrderStatus.SHIPPED });
     orderRepository.addOrder(initialOrder);
 
     const request: OrderApprovalRequest = new OrderApprovalRequest();

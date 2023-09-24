@@ -14,12 +14,13 @@ class Order {
   private status: OrderStatus;
   private id: number;
 
-  constructor({ items = [], currency = 'EUR' }: { items?: OrderItem[], currency?: string} = {}) {
+  constructor({ items = [], currency = 'EUR', id, status = OrderStatus.CREATED }: { items?: OrderItem[], currency?: string, id?: number, status?: OrderStatus} = {}) {
     this.items = items;
     this.currency = currency;
-    this.status = OrderStatus.CREATED;
     this.total = items.map(orderItem => orderItem.getTaxedAmount()).reduce((total, taxedAmount) => total + taxedAmount, 0);
     this.tax = items.map(orderItem => orderItem.getTax()).reduce((total, tax) => total + tax, 0);
+    this.id = id;
+    this.status = status;
   }
 
   public approve(): void {
@@ -56,49 +57,26 @@ class Order {
     return this.total;
   }
 
-  public setTotal(total: number): void  {
-    this.total = total;
-  }
-
   public getCurrency(): string {
     return this.currency;
-  }
-
-  public setCurrency(currency: string): void {
-    this.currency = currency;
   }
 
   public getItems(): OrderItem[] {
     return this.items;
   }
 
-  public setItems(items: OrderItem[]): void {
-    this.items = items;
-  }
-
   public getTax(): number {
     return this.tax;
-  }
-
-  public setTax(tax: number): void {
-    this.tax = tax;
   }
 
   public getStatus(): OrderStatus {
     return this.status;
   }
 
-  public setStatus(status: OrderStatus): void {
-    this.status = status;
-  }
-
   public getId(): number {
     return this.id;
   }
 
-  public setId(id: number): void {
-    this.id = id;
-  }
 }
 
 export default Order;
