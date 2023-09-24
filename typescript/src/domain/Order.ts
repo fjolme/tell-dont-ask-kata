@@ -1,3 +1,6 @@
+import ApprovedOrderCannotBeRejectedException from '../useCase/ApprovedOrderCannotBeRejectedException';
+import RejectedOrderCannotBeApprovedException from '../useCase/RejectedOrderCannotBeApprovedException';
+import ShippedOrdersCannotBeChangedException from '../useCase/ShippedOrdersCannotBeChangedException';
 import OrderItem from './OrderItem';
 import { OrderStatus } from './OrderStatus';
 
@@ -16,6 +19,27 @@ class Order {
     this.total = items.map(orderItem => orderItem.getTaxedAmount()).reduce((total, taxedAmount) => total + taxedAmount, 0);
     this.tax = items.map(orderItem => orderItem.getTax()).reduce((total, tax) => total + tax, 0);
   }
+
+  public approve(): void {
+    if (this.status === OrderStatus.SHIPPED) {
+      throw new ShippedOrdersCannotBeChangedException();
+    }
+    if (this.status === OrderStatus.REJECTED) {
+      throw new RejectedOrderCannotBeApprovedException();
+    }
+    this.status = OrderStatus.APPROVED;
+  }
+
+  public reject(): void {
+    if (this.status === OrderStatus.SHIPPED) {
+      throw new ShippedOrdersCannotBeChangedException();
+    }
+    if (this.status === OrderStatus.APPROVED) {
+      throw new ApprovedOrderCannotBeRejectedException();
+    }
+    this.status = OrderStatus.REJECTED;
+  }
+
 
   public getTotal(): number {
     return this.total;
