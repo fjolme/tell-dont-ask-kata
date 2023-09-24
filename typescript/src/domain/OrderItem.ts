@@ -6,37 +6,36 @@ class OrderItem {
   private taxedAmount: number;
   private tax: number;
 
-  public getProduct(): Product {
-    return this.product;
+  constructor({ product, quantity }: {product: Product, quantity: number }) {
+    const price = product.getPrice();
+    const taxPercentage = product.getTaxPercentage();
+    const unitaryTax: number = Math.round(price / 100 * taxPercentage * 100) / 100;
+    const unitaryTaxedAmount: number = Math.round((price + unitaryTax) * 100) / 100;
+    const taxedAmount: number = Math.round(unitaryTaxedAmount * quantity * 100) / 100;
+    const tax: number = unitaryTax * quantity;
+
+    this.product = product;
+    this.quantity = quantity;
+    this.taxedAmount = taxedAmount;
+    this.tax = tax;
   }
 
-  public setProduct(product: Product): void {
-    this.product = product;
+  public getProduct(): Product {
+    return this.product;
   }
 
   public getQuantity(): number {
     return this.quantity;
   }
 
-  public setQuantity(quantity: number): void {
-    this.quantity = quantity;
-  }
-
   public getTaxedAmount(): number {
     return this.taxedAmount;
-  }
-
-  public setTaxedAmount(taxedAmount: number): void {
-    this.taxedAmount = taxedAmount;
   }
 
   public getTax(): number {
     return this.tax;
   }
 
-  public setTax(tax: number): void {
-    this.tax = tax;
-  }
 }
 
 export default OrderItem;

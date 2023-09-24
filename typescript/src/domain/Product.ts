@@ -23,6 +23,10 @@ class Product {
     return this.category;
   }
 
+  public getTaxPercentage(): number {
+    return this.category.getTaxPercentage();
+  }
+
 }
 
 export default Product;

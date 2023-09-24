@@ -2,11 +2,8 @@ class SellItemRequest {
   private quantity: number;
   private productName: string;
 
-  public setQuantity(quantity: number): void{
+  constructor({ quantity = 1, productName }: { quantity?: number, productName: string }) {
     this.quantity = quantity;
-  }
-
-  public setProductName(productName: string): void {
     this.productName = productName;
   }
 

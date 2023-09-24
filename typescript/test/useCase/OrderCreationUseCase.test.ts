@@ -12,26 +12,21 @@ import TestOrderRepository from '../doubles/TestOrderRepository';
 
 describe('OrderCreationUseCase', () => {
   const orderRepository: TestOrderRepository = new TestOrderRepository();
-  const food: Category = new Category({ name: 'food', taxPercentage: 10 });
 
+  const food: Category = new Category({ name: 'food', taxPercentage: 10 });
   const saladProduct = new Product({ name: 'salad', price: 3.56, category: food });
   const tomatoProduct = new Product({ name: 'tomato', price: 4.65, category: food });
   const productCatalog: ProductCatalog = new InMemoryProductCatalog([ saladProduct, tomatoProduct]);
+
   const useCase: OrderCreationUseCase = new OrderCreationUseCase(orderRepository, productCatalog);
 
   it('sellMultipleItems', () => {
-    const saladRequest: SellItemRequest = new SellItemRequest();
-    saladRequest.setProductName('salad');
-    saladRequest.setQuantity(2);
-
-    const tomatoRequest: SellItemRequest = new SellItemRequest();
-    tomatoRequest.setProductName('tomato');
-    tomatoRequest.setQuantity(3);
+    const saladRequest: SellItemRequest = new SellItemRequest({ productName: 'salad', quantity: 2 });
+    const tomatoRequest: SellItemRequest = new SellItemRequest({ productName: 'tomato', quantity: 3 });
 
     const request: SellItemsRequest = new SellItemsRequest();
-    request.setRequests([]);
-    request.getRequests().push(saladRequest);
-    request.getRequests().push(tomatoRequest);
+    request.addRequest(saladRequest);
+    request.addRequest(tomatoRequest);
 
     useCase.run(request);
 
@@ -55,10 +50,8 @@ describe('OrderCreationUseCase', () => {
 
   it('unknownProduct', () => {
     const request: SellItemsRequest = new SellItemsRequest();
-    request.setRequests([]);
-    const unknownProductRequest: SellItemRequest = new SellItemRequest();
-    unknownProductRequest.setProductName('unknown product');
-    request.getRequests().push(unknownProductRequest);
+    const unknownProductRequest: SellItemRequest = new SellItemRequest({ productName: 'unknown product' });
+    request.addRequest(unknownProductRequest);
 
     expect(() => useCase.run(request)).toThrow(UnknownProductException);
   });
