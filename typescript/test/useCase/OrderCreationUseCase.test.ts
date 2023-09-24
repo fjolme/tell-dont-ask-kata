@@ -12,9 +12,7 @@ import TestOrderRepository from '../doubles/TestOrderRepository';
 
 describe('OrderCreationUseCase', () => {
   const orderRepository: TestOrderRepository = new TestOrderRepository();
-  const food: Category = new Category();
-  food.setName('food');
-  food.setTaxPercentage(10);
+  const food: Category = new Category({ name: 'food', taxPercentage: 10 });
 
   const saladProduct = new Product();
   saladProduct.setName('salad');
